@@ -20,6 +20,7 @@ export default async function middleware(req) {
     const token = req.cookies.get("token")?.value;
     // console.log({req})
     console.log({token})
+    
    
     if (userCountry == 'Pakistan' && req.url !== '/testing') {
       console.log("Redirecting user from Pakistan to /testing route");
