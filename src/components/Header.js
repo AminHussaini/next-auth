@@ -1,8 +1,11 @@
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 import { destroyCookie } from 'nookies';
 
 export default function Header() {
   const { data: session } = useSession();
+
+  const router = useRouter()
 
   const handleSignin = (e) => {
     e.preventDefault();
@@ -22,10 +25,14 @@ export default function Header() {
           <button>Sign out</button>
         </a>
       ) : (<>
+        {/* <a onClick={()=>signIn('google')} className="btn-signin"> */}
+        
+          
         <a onClick={()=>signIn('google')} className="btn-signin">
           <button> Sign in Google</button>
         </a>
-        <a onClick={()=>signIn('facebook')} className="btn-signin">
+        {/* <a onClick={()=>signIn('facebook')} className="btn-signin"> */}
+        <a onClick={() => signIn('facebook', { callbackUrl: router.query.callbackUrl })} className="btn-signin">
           <button> Sign in Facebook</button>
         </a>  
       </>
