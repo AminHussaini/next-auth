@@ -1,34 +1,43 @@
 import { NextResponse } from "next/server";
-// import { verify } from "./services/jwt_sign_verify";
 import { parseCookies } from 'nookies';
 
-const secret = process.env.SECRET || "secret";
-
 export default async function middleware(req) {
-  
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
-  const token = req.cookies.get("token");
-  // const token = req.cookies.get("token")?.value;
-  // console.log({req})
-  // console.log(token?.value)
-  console.log(token)
-  const url = req.url;
-  const {pathname} = req.nextUrl;
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+    headers: myHeaders,
+  };
 
-  if (pathname.startsWith("/dashboard")) {
-    if (jwthe === undefined) {
-      req.nextUrl.pathname = "/login";
-      return NextResponse.redirect(req.nextUrl);
+  try {
+    const userIpResponse = await fetch("https://json.geoiplookup.io/", requestOptions);
+    const userIpData = await userIpResponse.json();
+    const userCountry = userIpData.country_name;
+    console.log(userCountry)
+    // const token = req.cookies.get("token");
+    const token = req.cookies.get("token")?.value;
+    // console.log({req})
+    console.log({token})
+   
+    if (userCountry !== 'Pakistan' && req.url !== '/testing') {
+      console.log("Redirecting user from Pakistan to /testing route");
+      return NextResponse.rewrite(new URL('/testing', req.url))
     }
-
-    try {
-      // await verify(jwt, secret);
-      return NextResponse.next();
-    } catch (error) {
-      req.nextUrl.pathname = "/login";
-      return NextResponse.redirect(req.nextUrl);
+    if (token == undefined || token == null) {
+      console.log("Redirect to login");
+      return NextResponse.rewrite(new URL('/login', req.url))
     }
+   
+  } catch (error) {
+    console.error("Error fetching user IP data:", error);
   }
 
+  // Allow the request to continue processing
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: '/((?!api|_next|static|public|favicon.ico).*)',
+};
