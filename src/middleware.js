@@ -10,7 +10,6 @@ export default async function middleware(req) {
     redirect: "follow",
     headers: myHeaders,
   };
-
   try {
     const userIpResponse = await fetch("https://json.geoiplookup.io/", requestOptions);
     const userIpData = await userIpResponse.json();
