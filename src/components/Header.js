@@ -33,7 +33,7 @@ export default function Header() {
         </a>
         {/* <a onClick={()=>signIn('facebook')} className="btn-signin"> */}
         <a onClick={() => signIn("facebook")} className="btn-signin">
-          <button> Sign in Facebook</button>
+          <button> Sign in Facebooks</button>
         </a>  
       </>
       )}
