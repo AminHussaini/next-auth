@@ -32,7 +32,7 @@ export default function Header() {
           <button> Sign in Google</button>
         </a>
         {/* <a onClick={()=>signIn('facebook')} className="btn-signin"> */}
-        <a onClick={() => signIn()} className="btn-signin">
+        <a onClick={() => signIn("facebook")} className="btn-signin">
           <button> Sign in Facebook</button>
         </a>  
       </>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Testing = () => {
   return (
-    <div>Not Allow</div>
+    <div>Not Allow testing</div>
   )
 }
 

@@ -20,15 +20,16 @@ export default async function middleware(req) {
     const token = req.cookies.get("token")?.value;
     // console.log({req})
     console.log({token})
-    
+
    
-    if (userCountry == 'Pakistan' && req.url !== '/testing') {
-      console.log("Redirecting user from Pakistan to /testing route");
-      return NextResponse.rewrite(new URL('/testing', req.url))
-    }
+    
     if (token == undefined || token == null) {
       console.log("Redirect to login");
       return NextResponse.rewrite(new URL('/login', req.url))
+    }
+    if (userCountry !== 'Pakistan' && req.url !== '/testing') {
+      console.log("Redirecting user from Pakistan to /testing route");
+      return NextResponse.rewrite(new URL('/testing', req.url))
     }
    
   } catch (error) {
